@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.mit-logo{
+  width: 100% !important;
+}
+.nav-link{
+  color: black;
+  text-decoration: none;
+}
+
+.nav-link-active{
+  text-decoration: none;
+  color: #b71c1c;
+}
+.nav-link-active svg{
+  color: #b71c1c;
+}
