@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { useBankContext } from './context/context';
 import { Alert, AlertTitle, Backdrop, CircularProgress } from '@mui/material';
 import axios from 'axios';
+import Operations from './containers/Operations';
 
 const theme = createTheme({
   primary: red[900],
@@ -49,6 +50,7 @@ function App() {
           }
         })
         dispatch({ type: 'SET_CURRENT_USER', payload: userData.data.body })
+        dispatch({ type: 'UPDATE_BALANCE' })
         setLoading(false)
         // setUserMetadata(user_metadata);
       } catch (e) {
@@ -59,7 +61,6 @@ function App() {
             logout()
           }, 3000);
         }
-        console.log(e.message);
       }
     };
     getUserMetadata();
@@ -92,6 +93,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/operations" element={<Operations />} />
           </Routes>
         </Layout>
       </ThemeProvider>

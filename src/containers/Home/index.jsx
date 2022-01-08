@@ -10,8 +10,6 @@ const Home = () => {
   const { isAuthenticated } = useAuth0()
 
   const { state } = useBankContext()
-
-  console.log(state);
   return (
     <HomeStyled>
       <h1>Welcome to Bank Application</h1>

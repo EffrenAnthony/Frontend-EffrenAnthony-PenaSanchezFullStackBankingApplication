@@ -17,7 +17,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { Link, useMatch, useResolvedPath } from 'react-router-dom';
 import { NavbarStyled } from './Navbar.styles';
 import { styled } from '@mui/material/styles';
-import { AccountBalance, Login, Logout, Person, Storage, SwapHoriz } from '@mui/icons-material';
+import { AccountBalance, AccountCircle, AssignmentInd, Login, Logout, Person, Storage, SwapHoriz } from '@mui/icons-material';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useBankContext } from '../context/context';
 
@@ -87,9 +87,9 @@ function Navbar(props) {
   }
 
 
-  const NavItem = ({item, index}) => {
-  let resolved = useResolvedPath(item.route);
-  let match = useMatch({ path: resolved.pathname, end: true });
+  const NavItem = ({ item, index }) => {
+    let resolved = useResolvedPath(item.route);
+    let match = useMatch({ path: resolved.pathname, end: true });
     return (
       <Tooltip title={item.tooltip} placement="right">
         <Link to={item.route} className={match ? 'nav-link-active' : 'nav-link'}>
@@ -121,13 +121,13 @@ function Navbar(props) {
       </List>
       {
         state.currentUser?.userType === 'employee' &&
-        <NavItem item={allDataItem}/>
+        <NavItem item={allDataItem} />
       }
       <Divider />
       {
         !isAuthenticated
-        ? <NavItem item={loginItem} />
-        : <NavItem item={logoutItem} />
+          ? <NavItem item={loginItem} />
+          : <NavItem item={logoutItem} />
       }
     </div>
   );
@@ -159,9 +159,21 @@ function Navbar(props) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
+            <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
               MIT Bank Application
             </Typography>
+            <Toolbar>
+              {
+                state.currentUser &&
+                <Typography variant="h6" noWrap component="div">
+                  {
+                    state.currentUser?.userType === 'customer'
+                      ? <>{state.currentUser?.fullName} <AccountCircle /></>
+                      : <>{state.currentUser?.fullName} <AssignmentInd /></>
+                  }
+                </Typography>
+              }
+            </Toolbar>
           </Toolbar>
         </CustomAppBar>
         <Box
@@ -200,7 +212,7 @@ function Navbar(props) {
           component="main"
           sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
         >
-          <br/>
+          <br />
           {children}
         </Box>
       </Box>
