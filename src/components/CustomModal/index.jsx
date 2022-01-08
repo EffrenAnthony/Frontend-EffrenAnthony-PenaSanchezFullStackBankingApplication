@@ -14,7 +14,7 @@ const style = {
   p: 4,
 };
 
-const CustomModal = ({ children, onClose, open }) => {
+export const CustomModal = ({ children, onClose, open }) => {
   return (
     <div>
       <Modal
@@ -31,5 +31,3 @@ const CustomModal = ({ children, onClose, open }) => {
     </div>
   );
 };
-
-export default CustomModal;

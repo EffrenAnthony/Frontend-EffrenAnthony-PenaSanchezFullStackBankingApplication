@@ -48,7 +48,8 @@ export default function Operations() {
     if (user) {
       return user.accounts.map(account => {
         return {
-          label: account.number + ' - USD ' + account.balance
+          label: account.number + ' - USD ' + account.balance,
+          id: account._id
         }
       })
     }

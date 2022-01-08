@@ -1,5 +1,10 @@
 export const reducers = (state, action) => {
   switch (action.type) {
+    case 'SET_AUTHORIZATION':
+      return {
+        ...state,
+        authorization: action.payload
+      }
     case 'SET_CURRENT_USER':
       return {
         ...state,

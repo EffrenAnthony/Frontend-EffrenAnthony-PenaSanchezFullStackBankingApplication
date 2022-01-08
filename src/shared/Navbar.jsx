@@ -76,6 +76,7 @@ function Navbar(props) {
 
   const handleLogout = () => {
     window.localStorage.removeItem('userType')
+    window.localStorage.removeItem('token')
     logout()
   }
   const logoutItem = {

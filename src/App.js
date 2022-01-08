@@ -10,8 +10,8 @@ import Profile from './containers/Profile';
 import { useEffect, useState } from 'react';
 import { useBankContext } from './context/context';
 import { Alert, AlertTitle, Backdrop, CircularProgress } from '@mui/material';
-import axios from 'axios';
 import Operations from './containers/Operations';
+import { httpGet, httpPost } from './utils/request';
 
 const theme = createTheme({
   primary: red[900],
@@ -21,10 +21,8 @@ const theme = createTheme({
 
 function App() {
   const { getAccessTokenSilently, user, isLoading, logout } = useAuth0()
-  // const [userMetadata, setUserMetadata] = useState(null);
-  const API = 'http://localhost:3100/'
   const userType = window.localStorage.getItem('userType')
-  const { dispatch } = useBankContext()
+  const { dispatch, state: { API } } = useBankContext()
   const [loading, setLoading] = useState(true)
   const [showAlert, setShowAlert] = useState(false)
 
@@ -37,35 +35,27 @@ function App() {
           scope: "read:current_user",
         });
         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
-        const metadataResponse = await fetch(userDetailsByIdUrl, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        const user_metadata = await metadataResponse.json();
-        const token = await axios.post(API + 'user/auth', { ...user_metadata, userType })
-        const userData = await axios.post(API + 'user/', {}, {
-          headers: {
-            'Authorization': 'Bearer ' + token.data.body,
-          }
-        })
-        dispatch({ type: 'SET_CURRENT_USER', payload: userData.data.body })
+        const metadataResponse = await httpGet(userDetailsByIdUrl, '', accessToken)
+        const user_metadata = metadataResponse
+        const token = await httpPost(API, 'user/auth', { ...user_metadata, userType })
+        window.localStorage.setItem('token', token.body);
+        const userData = await httpPost(API, 'user/', {},token.body)
+        dispatch({ type: 'SET_CURRENT_USER', payload: userData.body })
         dispatch({ type: 'UPDATE_BALANCE' })
         setLoading(false)
-        // setUserMetadata(user_metadata);
       } catch (e) {
         if (user) {
           setShowAlert(true)
           setTimeout(() => {
             window.localStorage.removeItem('userType')
+            window.localStorage.removeItem('token')
             logout()
           }, 3000);
         }
       }
     };
     getUserMetadata();
-  }, [getAccessTokenSilently, user?.sub, dispatch, user, userType, logout]);
-
+  }, [getAccessTokenSilently, user?.sub, dispatch, user, userType, logout, API]);
 
   if (showAlert) {
     return (

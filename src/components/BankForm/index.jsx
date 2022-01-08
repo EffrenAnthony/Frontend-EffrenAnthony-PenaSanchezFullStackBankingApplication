@@ -21,12 +21,14 @@ const BankForm = ({
   opType,
   title,
   success,
-  onSuccess
+  onSuccess,
+  error
 }) => {
   const { state: { balance: totalBalance } } = useBankContext()
   const [comboValue, setComboValue] = useState('')
   const [amount, setAmount] = useState('0')
   const [account, setAccount] = useState()
+  const [accountId, setAccountId] = useState('')
   const [destAccount, setDestAccount] = useState('')
   const [balance, setBalance] = useState('0')
   const [destAccountError, setDestAccountError] = useState()
@@ -34,11 +36,16 @@ const BankForm = ({
   useEffect(() => {
     if (comboItems) {
       const accountSelectedArray = comboItems[0]?.label.split(' ')
+      const accountSelectedId = comboItems[0]?.id
       const balance = accountSelectedArray && accountSelectedArray[accountSelectedArray?.length - 1]
       const accountSelected = accountSelectedArray && accountSelectedArray[0]
-      setComboValue(comboItems[0]?.label)
+      setComboValue({
+        label: comboItems[0]?.label,
+        id: accountSelectedId
+      })
       setBalance(balance)
       setAccount(accountSelected)
+      setAccountId(accountSelectedId)
     }
   }, [comboItems])
 
@@ -49,12 +56,14 @@ const BankForm = ({
     return value
   }
   const handleCombo = (e) => {
-    setComboValue(e.target.value)
-    const accountSelectedArray = e.target.value.split(' ')
+    const valueParsed = JSON.parse(e.target.value)
+    const accountSelectedArray = valueParsed.label.split(' ')
     const accountSelected = accountSelectedArray[0]
     const balance = accountSelectedArray[accountSelectedArray.length - 1]
     setBalance(Number(balance))
     setAccount(accountSelected)
+    setAccountId(valueParsed.id)
+    setComboValue(valueParsed)
   }
 
   const handleAmmount = (e) => {
@@ -83,7 +92,8 @@ const BankForm = ({
       account,
       amount: stringToNumber(amount),
       destAccount,
-      oldBalance: balance
+      oldBalance: balance,
+      accountId
     }
     handle(data)
     setAmount('0')
@@ -152,10 +162,19 @@ const BankForm = ({
   const SuccessComponent = () => {
     return (
       <>
-        <Alert severity='success'>
-          <AlertTitle><strong>Successful Operation</strong></AlertTitle>
-        </Alert>
+        {
+          !error ?
+            <Alert severity='success'>
+              <AlertTitle><strong>Successful Operation</strong></AlertTitle>
+            </Alert>
+            : <Alert severity='error'>
+              <AlertTitle><strong>Something went wrong</strong></AlertTitle>
+            </Alert>
+
+        }
+        <br />
         <Divider sx={{ mt: 3, mb: 3 }} />
+        <br />
         <CustomButton
           variant="contained"
           color="primary"
@@ -186,14 +205,17 @@ const BankForm = ({
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={comboValue === undefined ? '' : comboValue}
+                        value={comboValue === undefined ? '' : JSON.stringify(comboValue)}
                         label="Age"
                         onChange={handleCombo}
                         sx={{ width: '100%' }}
                       >
                         {
                           comboItems.map((item, key) => (
-                            <MenuItem value={item.label} key={key}>{item.label}</MenuItem>
+                            <MenuItem value={JSON.stringify({
+                              label: item.label,
+                              id: item.id
+                            })} key={key}>{item.label}</MenuItem>
                           ))
                         }
                       </Select>
@@ -230,7 +252,9 @@ const BankForm = ({
                     </Grid>
                   }
                 </Grid>
+                <br />
                 <Divider sx={{ mt: 3, mb: 3 }} />
+                <br />
                 <CustomButton
                   variant="contained"
                   color="primary"

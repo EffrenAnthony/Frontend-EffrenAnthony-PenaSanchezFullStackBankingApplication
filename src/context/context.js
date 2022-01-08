@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from 'react';
+import React, { useContext, useReducer, useEffect } from 'react';
 import { initialState } from './initialState';
 import { reducers } from './reducers'
 
@@ -8,9 +8,15 @@ export function useBankContext () {
   return useContext(BankContext)
 }
 
+const token = window.localStorage.getItem('token')
+
 export const BankProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducers, initialState)
-
+  useEffect(() => {
+    if (token) {
+      dispatch({type: 'SET_AUTHORIZATION', payload: token})
+    }
+  }, [])
   const value = {
     state,
     dispatch
