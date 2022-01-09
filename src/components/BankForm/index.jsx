@@ -173,7 +173,7 @@ const BankForm = ({
 
         }
         <br />
-        <Divider sx={{ mt: 3, mb: 3 }} />
+        <Divider />
         <br />
         <CustomButton
           variant="contained"
@@ -253,7 +253,7 @@ const BankForm = ({
                   }
                 </Grid>
                 <br />
-                <Divider sx={{ mt: 3, mb: 3 }} />
+                <Divider />
                 <br />
                 <CustomButton
                   variant="contained"

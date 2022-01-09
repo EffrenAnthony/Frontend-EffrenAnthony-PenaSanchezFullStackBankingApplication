@@ -16,3 +16,12 @@ export const httpGet = async (API, route, authorization) => {
   })
   return response.data
 }
+
+export const httpDelete = async (API, route, id, authorization) => {
+  const response = await axios.delete(API + route + '/' + id, {
+    headers: {
+      'Authorization': 'Bearer ' + authorization,
+    }
+  })
+  return response.data
+}

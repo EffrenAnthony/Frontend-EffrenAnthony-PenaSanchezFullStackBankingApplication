@@ -8,12 +8,12 @@ export const reducers = (state, action) => {
     case 'SET_CURRENT_USER':
       return {
         ...state,
-        currentUser: {...action.payload}
+        currentUser: { ...action.payload }
       }
     case 'UPDATE_BALANCE':
-      const newBalance = state.currentUser.accounts.reduce((prev,cur) => {
+      const newBalance = state.currentUser.accounts.reduce((prev, cur) => {
         return prev + cur.balance
-      },0)
+      }, 0)
       return {
         ...state,
         balance: newBalance
@@ -30,7 +30,7 @@ export const reducers = (state, action) => {
       const account = state.currentUser.accounts.find(account => account.number === Number(action.payload.number))
       const indexOfAccount = state.currentUser.accounts.indexOf(account)
       const copyAccounts = [...state.currentUser.accounts]
-      copyAccounts[indexOfAccount].balance = action.payload.balance 
+      copyAccounts[indexOfAccount].balance = action.payload.balance
       return {
         ...state,
         currentUser: {
@@ -38,7 +38,19 @@ export const reducers = (state, action) => {
           accounts: [...copyAccounts]
         }
       }
+    case 'DELETE_ACCOUNT':
+      const deletedAccount = state.currentUser.accounts.find(account => account._id === action.payload)
+      const indexOfDeletedAccount = state.currentUser.accounts.indexOf(deletedAccount)
+      const copyUserAccounts = [...state.currentUser.accounts]
+      copyUserAccounts.splice(indexOfDeletedAccount, 1)
+      return {
+        ...state,
+        currentUser: {
+          ...state.currentUser,
+          accounts: [...copyUserAccounts]
+        }
+      }
     default:
-      return {...state}
+      return { ...state }
   }
 }

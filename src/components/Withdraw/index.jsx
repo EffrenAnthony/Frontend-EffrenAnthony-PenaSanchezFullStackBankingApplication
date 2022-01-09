@@ -20,7 +20,7 @@ const Withdraw = ({
     const accountId = data.accountId
     const newBalance = Number(data.oldBalance) - Number(data.amount)
     try {
-      const updatedAccount = await httpPost(state.API, 'account', {
+      const updatedAccount = await httpPost(state.API, '/account', {
         newBalance,
         accountId
       }, state.authorization)

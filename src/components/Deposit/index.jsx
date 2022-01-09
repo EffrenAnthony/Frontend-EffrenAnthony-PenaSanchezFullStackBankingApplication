@@ -20,7 +20,7 @@ const Deposit = ({
     const newBalance = Number(data.oldBalance) + Number(data.amount)
     const accountId = data.accountId
     try {
-      const updatedAccount = await httpPost(state.API, 'account', {
+      const updatedAccount = await httpPost(state.API, '/account', {
         newBalance,
         accountId
       }, state.authorization)

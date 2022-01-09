@@ -18,6 +18,8 @@ export const ProfileStyled = styled.div`
     -moz-box-shadow: 1px 1px 18px 0px rgba(183,28,28,0.1);
     border-radius: 10px;
     color: #2d2c2c;
+    max-height: 50vh;
+    overflow-y: scroll;
   }
 
 `

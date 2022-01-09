@@ -11,15 +11,27 @@ import { Delete } from '@mui/icons-material';
 import { AccountListStyled } from './styled';
 import { CustomModal } from '../CustomModal';
 import CustomButton from '../CustomButton';
+import { useBankContext } from '../../context/context';
+import { httpDelete } from '../../utils/request';
 
-const DeleteAccount = ({account}) => {
+const DeleteAccount = ({account, onSuccess, onError}) => {
+  const { state, dispatch } = useBankContext()
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
   const handleOpenDeleteModal = () => {
     setOpenDeleteModal(!openDeleteModal)
   }
 
-  const handleDeleteAccount = () => {
-    handleOpenDeleteModal()
+  const handleDeleteAccount = async () => {
+    try {
+      const deletedAccount = await httpDelete(state.API, '/account', account._id, state.authorization)
+      dispatch({ type: 'DELETE_ACCOUNT', payload: deletedAccount.body._id})
+      onSuccess()
+    } catch (error) {
+      console.log(error)
+      onError()
+    } finally {
+      handleOpenDeleteModal()
+    }
   }
   return (
     <>
@@ -38,7 +50,7 @@ const DeleteAccount = ({account}) => {
   )
 }
 
-const AccountList = ({ accounts }) => {
+const AccountList = ({ accounts, onSuccess, onError }) => {
   return (
     <AccountListStyled>
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
@@ -47,7 +59,7 @@ const AccountList = ({ accounts }) => {
             <div key={account._id}>
               <ListItem alignItems="flex-start"
                 secondaryAction={
-                  <DeleteAccount account={account}/>
+                  <DeleteAccount account={account} onSuccess={onSuccess} onError={onError}/>
                 }>
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp" src={account.avatar} />
@@ -70,7 +82,6 @@ const AccountList = ({ accounts }) => {
                 />
               </ListItem>
               <Divider variant="inset" component="li" />
-
             </div>
           ))
         }

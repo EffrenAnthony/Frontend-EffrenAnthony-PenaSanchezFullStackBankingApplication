@@ -1,17 +1,31 @@
 import { Divider } from '@material-ui/core';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import React from 'react';
+import { useBankContext } from '../../context/context';
+import { httpPost } from '../../utils/request';
 import CustomButton from '../CustomButton';
 
-const CreateAccountForm = ({ closeModal }) => {
+const CreateAccountForm = ({ closeModal, onSuccess, onError }) => {
   const [accountType, setAccountType] = React.useState('savings');
+  const { state, dispatch } = useBankContext()
 
   const handleChange = (event) => {
     setAccountType(event.target.value);
   };
-
-  const handleSubmit = (event) => {
+  
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+      const response = await httpPost(state.API, '/user/addAccount', {
+        userId: state.currentUser._id,
+        accountType,
+      }, state.authorization)
+      dispatch({ type: 'SET_CURRENT_USER', payload: response.body})
+      onSuccess()
+    } catch (error) {
+      console.log(error)
+      onError()
+    }
     closeModal()
   }
   return (
