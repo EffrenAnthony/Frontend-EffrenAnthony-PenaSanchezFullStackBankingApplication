@@ -4,29 +4,18 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
-import { Auth0Provider } from '@auth0/auth0-react';
 import { BankProvider } from './context/context';
-
-
-const domain = process.env.REACT_APP_AUTH0_DOMAIN
-const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID
+import AuthContextProvider from './context/authContext'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Auth0Provider
-      domain={domain}
-      clientId={clientId}
-      redirectUri={window.location.origin}
-      audience={`https://${domain}/api/v2/`}
-      scope="read:current_user update:current_user_metadata"
-    >
-      <BankProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </BankProvider>
-
-    </Auth0Provider>
+    <AuthContextProvider>
+        <BankProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </BankProvider>
+    </AuthContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

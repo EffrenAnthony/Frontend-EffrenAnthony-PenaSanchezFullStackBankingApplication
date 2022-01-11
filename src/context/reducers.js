@@ -5,10 +5,25 @@ export const reducers = (state, action) => {
         ...state,
         authorization: action.payload
       }
+    case 'SET_CREATING_USER':
+      return {
+        ...state,
+        creatingUser: action.payload
+      }
     case 'SET_CURRENT_USER':
       return {
         ...state,
         currentUser: { ...action.payload }
+      }
+    case 'REMOVE_AUTHORIZATION':
+      return {
+        ...state,
+        authorization: null
+      }
+    case 'REMOVE_CURRENT_USER':
+      return {
+        ...state,
+        currentUser: null
       }
     case 'UPDATE_BALANCE':
       const newBalance = state.currentUser.accounts.reduce((prev, cur) => {

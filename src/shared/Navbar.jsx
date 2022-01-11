@@ -14,21 +14,22 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import MITLOGO from '../assets/mitLogo.png'
 import Tooltip from '@mui/material/Tooltip';
-import { Link, useMatch, useResolvedPath } from 'react-router-dom';
+import { Link, useMatch, useNavigate, useResolvedPath } from 'react-router-dom';
 import { NavbarStyled } from './Navbar.styles';
 import { styled } from '@mui/material/styles';
 import { AccountBalance, AccountCircle, AssignmentInd, Login, Logout, Person, Storage, SwapHoriz } from '@mui/icons-material';
-import { useAuth0 } from '@auth0/auth0-react';
 import { useBankContext } from '../context/context';
+import { useAuth } from '../context/authContext';
+
 
 const drawerWidth = 240;
 
 function Navbar(props) {
   const { window: windowProps, children } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const { isAuthenticated, logout } = useAuth0()
-  const { state } = useBankContext()
-
+  const { currentUser, logout } = useAuth()
+  const { state, dispatch } = useBankContext()
+  const navigate = useNavigate()
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -75,13 +76,17 @@ function Navbar(props) {
   }
 
   const handleLogout = () => {
+    logout()
     window.localStorage.removeItem('userType')
     window.localStorage.removeItem('token')
-    logout()
+    dispatch({ type: 'REMOVE_AUTHORIZATION' })
+    dispatch({ type: 'REMOVE_CURRENT_USER' })
+    navigate('/')
+
   }
   const logoutItem = {
     title: 'Logout',
-    route: '/logout',
+    route: '/',
     tooltip: 'Logout',
     icon: <Logout />,
     callback: handleLogout
@@ -114,7 +119,7 @@ function Navbar(props) {
         {navItems.map((item, index) => (
           <div key={index}>
             {
-              (item.public || isAuthenticated) &&
+              (item.public || currentUser) &&
               <NavItem item={item} index={index} key={index} />
             }
           </div>
@@ -126,7 +131,7 @@ function Navbar(props) {
       }
       <Divider />
       {
-        !isAuthenticated
+        !currentUser
           ? <NavItem item={loginItem} />
           : <NavItem item={logoutItem} />
       }

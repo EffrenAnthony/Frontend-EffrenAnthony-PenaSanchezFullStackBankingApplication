@@ -7,7 +7,6 @@ import { httpGet } from '../../utils/request';
 import { AllDataStyles } from './styles';
 
 const getBalance = (accounts) => {
-  console.log(accounts);
   const totalBalance = accounts.reduce((prev, cur) => {
     return prev + cur.balance
   }, 0)

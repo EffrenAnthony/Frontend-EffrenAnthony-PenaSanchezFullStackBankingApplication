@@ -17,7 +17,7 @@ const CustomButton = ({
   }));
   return (
     <ButtonStyled>
-      <NewButton onClick={onClick} variant={variant} color={color} endIcon={endIcon} disabled={disabled} type={type}>{children}</NewButton>
+      <NewButton size="large" onClick={onClick} variant={variant} color={color} endIcon={endIcon} disabled={disabled} type={type}>{children}</NewButton>
     </ButtonStyled>
   );
 };
