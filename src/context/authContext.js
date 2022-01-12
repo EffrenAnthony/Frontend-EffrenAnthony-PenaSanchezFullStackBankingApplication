@@ -26,6 +26,7 @@ export const useAuth = () => useContext(AuthContext)
 export default function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null)
   const [authError, setAuthError] = useState(false)
+  const [authSuccess, setAuthSuccess] = useState(false)
   const [loadingAuth, setLoadingAuth] = useState(false)
 
   useEffect(() => {
@@ -46,6 +47,9 @@ export default function AuthContextProvider({ children }) {
   }
   function handleAuthError() {
     setAuthError(!authError)
+  }
+  function handleAuthSuccess() {
+    setAuthSuccess(!authSuccess)
   }
   function login(email, password) {
     return signInWithEmailAndPassword(auth, email, password)
@@ -86,7 +90,10 @@ export default function AuthContextProvider({ children }) {
     handleAuthError,
     authError,
     loadingAuth,
-    handleLoadingAuth 
+    handleLoadingAuth,
+    authSuccess,
+    handleAuthSuccess
+    
   }
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

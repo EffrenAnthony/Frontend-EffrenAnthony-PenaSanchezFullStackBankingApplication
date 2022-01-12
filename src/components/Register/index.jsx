@@ -11,7 +11,16 @@ import LoadingBackdrop from '../LoadingBackdrop';
 
 const Register = () => {
   const { state, dispatch } = useBankContext()
-  const { register, handleAuthError, authError, loadingAuth, handleLoadingAuth, signInWithGoogle, logout } = useAuth()
+  const {
+    register,
+    handleAuthError,
+    authError,
+    loadingAuth,
+    handleLoadingAuth,
+    signInWithGoogle,
+    logout,
+    handleAuthSuccess
+  } = useAuth()
   const navigate = useNavigate()
   const handleRegisterWithPass = async (data) => {
     try {
@@ -32,7 +41,8 @@ const Register = () => {
       dispatch({ type: 'UPDATE_BALANCE' })
       dispatch({ type: 'SET_CREATING_USER', payload: false })
       handleLoadingAuth(false)
-      navigate('/profile')
+      handleAuthSuccess()
+      navigate('/')
     } catch (err) {
       handleAuthError()
       handleLoadingAuth(false)
@@ -59,7 +69,8 @@ const Register = () => {
         dispatch({ type: 'SET_CURRENT_USER', payload: userData.body })
         dispatch({ type: 'UPDATE_BALANCE' })
         handleLoadingAuth(false)
-        navigate('/profile')
+        handleAuthSuccess()
+        navigate('/')
       } else {
         // window.localStorage.setItem('authError', true)
         handleAuthError()

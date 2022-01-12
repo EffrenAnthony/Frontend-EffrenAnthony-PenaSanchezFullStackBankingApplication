@@ -68,7 +68,7 @@ const BankForm = ({
 
   const handleAmmount = (e) => {
     let value = stringToNumber(e.target.value)
-    let ammountFormated = (Number(value)).toLocaleString('en-IN')
+    let ammountFormated = (Number(value)).toLocaleString('de-DE')
     if (ammountFormated === 'NaN') {
       setAmount('0')
     } else if (Number(value) < 999999999) {
@@ -195,8 +195,8 @@ const BankForm = ({
             </>
             : <>
               <Alert severity={getAlertSeverity()}><strong>{title}</strong></Alert>
-              <p>Total Balance: USD {(Number(totalBalance)).toLocaleString('en-IN')}</p>
-              <h1>Balance: USD {(Number(balance)).toLocaleString('en-IN')}</h1>
+              <p>Total Balance: USD {(Number(totalBalance)).toLocaleString('de-DE')}</p>
+              <h1>Balance: USD {(Number(balance)).toLocaleString('de-DE')}</h1>
               <form onSubmit={handleBankForm}>
                 <Grid container spacing={2}>
                   <Grid item lg={12} xs={12} >

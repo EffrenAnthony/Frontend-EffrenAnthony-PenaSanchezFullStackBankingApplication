@@ -34,7 +34,7 @@ const Profile = () => {
             <Grid item lg={5} md={5} xs={12}>
               <div className="profile__balance">
                 <h2>Balance</h2>
-                <h1>USD {(Number(state.balance)).toLocaleString('en-IN')}</h1>
+                <h1>USD {(Number(state.balance)).toLocaleString('de-DE')}</h1>
                 <CustomButton onClick={handleOpenModal} variant="contained" endIcon={<Add />}>
                   Create new account
                 </CustomButton>

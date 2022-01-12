@@ -65,7 +65,7 @@ const AccountList = ({ accounts, onSuccess, onError }) => {
                   <Avatar alt="Remy Sharp" src={account.avatar} />
                 </ListItemAvatar>
                 <ListItemText
-                  primary={`USD ${(Number(account.balance)).toLocaleString('en-IN')}`}
+                  primary={`USD ${(Number(account.balance)).toLocaleString('de-DE')}`}
                   secondary={
                     <React.Fragment>
                       <Typography

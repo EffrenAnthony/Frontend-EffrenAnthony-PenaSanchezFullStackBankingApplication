@@ -10,7 +10,7 @@ const getBalance = (accounts) => {
   const totalBalance = accounts.reduce((prev, cur) => {
     return prev + cur.balance
   }, 0)
-  return (Number(totalBalance)).toLocaleString('en-IN')
+  return (Number(totalBalance)).toLocaleString('de-DE')
 }
 
 const AccountsInfo = ({ accounts, totalBalance }) => {
@@ -53,7 +53,7 @@ const AccountsInfo = ({ accounts, totalBalance }) => {
                   </TableCell>
                   <TableCell>{account.accountType}</TableCell>
                   <TableCell align="right">{account.number}</TableCell>
-                  <TableCell align="right">{(Number(account.balance)).toLocaleString('en-IN')}</TableCell>
+                  <TableCell align="right">{(Number(account.balance)).toLocaleString('de-DE')}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
