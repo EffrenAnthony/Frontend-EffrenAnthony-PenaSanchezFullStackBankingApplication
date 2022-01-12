@@ -18,6 +18,7 @@ jobs:
         env:
           CI: true
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -25,6 +26,8 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       - name: Use Node.js
         uses: actions/setup-node@v1
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
         with:
           node-version: "14.x"
       - name: Install dependencies
@@ -38,6 +41,7 @@ jobs:
           sourceDirectory: "src"
           assignDomain: "effren-penafullstackbankingapplication.vercel.app"
         env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
           REACT_APP_URL: ${{ secrets.REACT_APP_URL }}
           REACT_APP_API: ${{ secrets.REACT_APP_API }}
           REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
