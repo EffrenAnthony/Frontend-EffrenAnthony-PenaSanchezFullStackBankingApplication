@@ -1,6 +1,22 @@
 name: deploy website
 on: [push]
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm run build --if-present
+      - run: npm test
+        env:
+          CI: true
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -14,6 +30,7 @@ jobs:
       - uses: xmflsct/action-vercel-deployment@v0.5.3
         with:
           vercelToken: ${{ secrets.VERCEL_TOKEN }}
+          vercelOrgId: ${{ secrets.VERCEL_ORG_ID }}
           vercelProjectId: ${{ secrets.VERCEL_PROJECT_ID }}
           githubToken: ${{ secrets.PAT }}
           sourceDirectory: "src"
