@@ -18,7 +18,7 @@ jobs:
           vercelProjectId: ${{ secrets.VERCEL_PROJECT_ID }}
           githubToken: ${{ secrets.PAT }}
           sourceDirectory: "src"
-          assignDomain: "https://effren-penafullstackbankingapplication.vercel.app"
+          assignDomain: "effren-penafullstackbankingapplication.vercel.app"
         env:
           REACT_APP_URL: ${{ secrets.REACT_APP_URL }}
           REACT_APP_API: ${{ secrets.REACT_APP_API }}
@@ -29,4 +29,4 @@ jobs:
           REACT_APP_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_MESSAGING_SENDER_ID }}
           REACT_APP_APP_ID: ${{ secrets.REACT_APP_APP_ID }}
           REACT_APP_MEASUREMENT_ID: ${{ secrets.REACT_APP_MEASUREMENT_ID }}
-          REACT_APP_VERCEL_URL: ${{ secrets.REACT_APP_VERCEL_URL }} https://effren-penafullstackbankingapplication.vercel.app/
+          REACT_APP_VERCEL_URL: ${{ secrets.REACT_APP_VERCEL_URL }}
