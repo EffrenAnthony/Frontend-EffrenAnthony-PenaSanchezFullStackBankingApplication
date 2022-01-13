@@ -46,7 +46,7 @@ function Navbar(props) {
     {
       title: 'Profile',
       route: '/profile',
-      tooltip: 'Profile',
+      tooltip: 'See your information',
       icon: <Person />,
       public: false,
       isEmployee: false
@@ -54,7 +54,7 @@ function Navbar(props) {
     {
       title: 'Operations',
       route: '/operations',
-      tooltip: 'Operations',
+      tooltip: 'Make Deposit, Withdraw or Transfer',
       icon: <SwapHoriz />,
       public: false,
       isEmployee: false
@@ -71,7 +71,7 @@ function Navbar(props) {
   const allDataItem = {
     title: 'All Data',
     route: '/all-data',
-    tooltip: 'All Data',
+    tooltip: 'See all users data',
     icon: <Storage />
   }
 
